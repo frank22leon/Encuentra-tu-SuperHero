@@ -4,7 +4,7 @@ const requestSection = document.getElementById("request-section");
 
 console.log(formularioElement);
 
-function renderSuperhero(superhero) {
+function renderSuperheroCard(superhero) {
     const imagen = document.getElementById("imagen");
     const nombre = document.getElementById("nombre");
 
@@ -25,55 +25,51 @@ function renderSuperhero(superhero) {
     peso.html(`${superhero.appearance.weight[0]} ${superhero.appearance.weight[1]}`);
     alianza.html(`${superhero.biography.aliases.join("-")}`);
 
+}
 
-
-    window.onload = function () {
-
-        var options = {
-            title: {
-                text: "Superhero Grafict"
-            },
-            subtitles: [{
-                text: "As of November, 2017"
-            }],
-            animationEnabled: true,
-            data: [{
+function renderSuperheroChart(superhero) {
+    const options = {
+        title: {
+            text: "Grafico del Superheroe",
+        },
+        data: [
+            {
                 type: "pie",
+                showInLegend: true,
+                toolTipContent: "{name}: <strong>{y}%</strong>",
+                indexLabel: "{name} - {y}%",
                 dataPoints: [
                     {
-                        label: "Inteligencia",
-                        y: Number.parseInt(superhero.powerstats.intelligence)
+                        name: "Inteligencia",
+                        y: Number.parseInt(superhero.powerstats.intelligence),
                     },
                     {
-                        label: "Fuerza",
-                        y: Number.parseInt(superhero.powerstats.strenght)
+                        name: "Fuerza",
+                        y: Number.parseInt(superhero.powerstats.strength),
                     },
                     {
-                        label: "Velocidad",
-                        y: Number.parseInt(superhero.powerstats.speed)
+                        name: "Velocidad",
+                        y: Number.parseInt(superhero.powerstats.speed),
                     },
                     {
-                        label: "Durabilidad",
-                        y: Number.parseInt(superhero.powerstats.durability)
+                        name: "Durabilidad",
+                        y: Number.parseInt(superhero.powerstats.durability),
                     },
                     {
-                        label: "Poder",
-                        y: Number.parseInt(superhero.powerstats.power)
+                        name: "Poder",
+                        y: Number.parseInt(superhero.powerstats.power),
                     },
                     {
-                        label: "Combate",
-                        y: Number.parseInt(superhero.powerstats.combat)
+                        name: "Combate",
+                        y: Number.parseInt(superhero.powerstats.combat),
                     },
                 ],
             },
-            ],
-        };      
-    
+        ],
+    };
     $("#chartContainer").CanvasJSChart(options);
-        
-        
-    };    
 }
+
 
 
 formularioElement.submit(function (event) {
@@ -86,7 +82,7 @@ formularioElement.submit(function (event) {
         dataType: "json",
         url: `https://www.superheroapi.com/api.php/4316299581725921/${idDelSuperHeroe}`,
     }).done(function (data) {
-        renderSuperhero(data);
-
+        renderSuperheroCard(data);
+        renderSuperheroChart(data);
     });
 });
